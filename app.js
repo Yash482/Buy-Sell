@@ -65,6 +65,10 @@ app.use(authRoutes);
 
 app.use(errorController.get404);
 
+app.use((error, req, res, next) => {
+  res.render('500', {pageTitle: "Error Occured", path: '/error'})
+})
+
 app.listen(3000);
 
 
