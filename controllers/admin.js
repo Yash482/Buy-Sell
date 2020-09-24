@@ -28,7 +28,7 @@ exports.postAddProduct = (req, res, next) => {
       res.redirect('/admin/products');
     })
     .catch(err => {
-      console.log(err);
+      next(err);
     });
 };
 
@@ -50,7 +50,7 @@ exports.getEditProduct = (req, res, next) => {
         product: product
       });
     })
-    .catch(err => console.log(err));
+    .catch(err => next(err));
 };
 
 exports.postEditProduct = (req, res, next) => {
@@ -75,7 +75,7 @@ exports.postEditProduct = (req, res, next) => {
         res.redirect('/admin/products');
       });
     })
-    .catch(err => console.log(err));
+    .catch(err => next(err));
 };
 
 exports.getProducts = (req, res, next) => {
@@ -90,15 +90,16 @@ exports.getProducts = (req, res, next) => {
         path: '/admin/products'
       });
     })
-    .catch(err => console.log(err));
+    .catch(err => next(err));
 };
 
 exports.postDeleteProduct = (req, res, next) => {
+  throw new Error('Dummy');
   const prodId = req.body.productId;
   Product.deleteOne({_id: prodId, userId: req.user._id})
     .then(() => {
       console.log('DESTROYED PRODUCT');
       res.redirect('/admin/products');
     })
-    .catch(err => console.log(err));
+    .catch(err => next(err));
 };

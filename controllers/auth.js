@@ -103,7 +103,7 @@ exports.postLogin = (req, res, next) => {
           res.redirect('/login');
         });
     })
-    .catch(err => console.log(err));
+    .catch(err => next(err));
 };
 
 exports.postSignup = (req, res, next) => {
@@ -137,11 +137,11 @@ exports.postSignup = (req, res, next) => {
           });
         })
         .catch(err => {
-          console.log(err);
+          next(err);
         });
     })
     .catch(err => {
-      console.log(err);
+      next(err);
     });
 };
 
@@ -174,7 +174,7 @@ exports.postReset = (req, res, next) => {
                 `
         });
       })
-      .catch(err => console.log(err))
+      .catch(err => next(err))
   })
 };
 
@@ -197,7 +197,7 @@ exports.postNewPassword = (req, res,next) => {
       .then(result => {
         res.redirect('/login');
       })
-      .catch(err => console.log(err));
+      .catch(err => next(err));
 }
 
 exports.postLogout = (req, res, next) => {
