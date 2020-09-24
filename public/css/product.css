@@ -1,0 +1,36 @@
+.product-form {
+    width: 20rem;
+    max-width: 80%;
+    margin: auto;
+    display: block;
+}
+
+.product-item {
+    width: 20rem;
+    max-width: 75%;
+    margin: 0.5rem;
+}
+
+.product__title {
+    font-size: 1rem;
+    text-align: center;
+}
+
+.card__image img  {
+    height: 20rem;
+}
+
+.card__content
+.card__actions {
+    height: 2rem;
+}
+
+.product__price {
+    text-align: center;
+    color: #4d4d4d;
+    margin-bottom: 0.2rem;
+}
+
+.product__description {
+    text-align: center;
+}
