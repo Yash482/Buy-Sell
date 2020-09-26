@@ -7,6 +7,7 @@ const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const csrf = require('csurf');
 const flash = require('connect-flash');
+const multer = require('multer');
 
 const errorController = require('./controllers/error');
 const User = require('./models/user');
@@ -66,7 +67,7 @@ app.use(authRoutes);
 app.use(errorController.get404);
 
 app.use((error, req, res, next) => {
-  res.render('500', {pageTitle: "Error Occured", path: '/error'})
+  res.render('500', {pageTitle: "Error Occured", path: '/error', isAuthenticated : req.session.isLoggedIn, csrfToken : req.csrfToken()})
 })
 
 app.listen(3000);
