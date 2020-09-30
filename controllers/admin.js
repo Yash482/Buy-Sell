@@ -10,9 +10,10 @@ exports.getAddProduct = (req, res, next) => {
 
 exports.postAddProduct = (req, res, next) => {
   const title = req.body.title;
-  const imageUrl = req.body.image;
+  const imageUrl = '/uploads/'+req.file.filename;
   const price = req.body.price;
   const description = req.body.description;
+  //console.log(imageUrl);
   const product = new Product({
     title: title,
     price: price,
@@ -55,9 +56,9 @@ exports.getEditProduct = (req, res, next) => {
 
 exports.postEditProduct = (req, res, next) => {
   const prodId = req.body.productId;
+  const updatedImage = req.file;
   const updatedTitle = req.body.title;
   const updatedPrice = req.body.price;
-  const updatedImageUrl = req.body.imageUrl;
   const updatedDesc = req.body.description;
 
   Product.findById(prodId)
@@ -68,10 +69,12 @@ exports.postEditProduct = (req, res, next) => {
       product.title = updatedTitle;
       product.price = updatedPrice;
       product.description = updatedDesc;
-      product.imageUrl = updatedImageUrl;
+      if(updatedImage){
+        product.imageUrl = '/uploads/'+req.file.filename
+      }
       return product.save()
       .then(result => {
-        console.log('UPDATED PRODUCT!');
+       // console.log('UPDATED PRODUCT!');
         res.redirect('/admin/products');
       });
     })
@@ -94,7 +97,6 @@ exports.getProducts = (req, res, next) => {
 };
 
 exports.postDeleteProduct = (req, res, next) => {
-  throw new Error('Dummy');
   const prodId = req.body.productId;
   Product.deleteOne({_id: prodId, userId: req.user._id})
     .then(() => {
