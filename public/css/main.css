@@ -48,6 +48,19 @@ form {
   display: flex;
 }
 
+.pagination {
+  text-decoration: none;
+  padding: 2rem;
+  color: #00695c;
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.pagination a:hover{
+  background-color: #00695c;
+  color: white;
+}
+
 .main-header__item {
   margin: 0 1rem;
   padding: 0;
