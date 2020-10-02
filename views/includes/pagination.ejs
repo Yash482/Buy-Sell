@@ -1,0 +1,12 @@
+<a href="?page=1">1</a>
+<% if(currentPage > 2) { %>
+    <a href="?page=<%= currentPage-1 %>"><%= currentPage-1 %></a>
+<% } %>
+<% if(currentPage > 1 && currentPage < lastPage) { %>
+    <a href="?page=<%= currentPage %>"><%= currentPage %></a>
+<% } %>
+<% if(currentPage+1 < lastPage) { %>
+    <a href="?page=<%= currentPage+1 %>"><%= currentPage+1 %></a>
+<% } %>
+<a href="?page=<%= lastPage%>"><%= lastPage%></a>
+            
