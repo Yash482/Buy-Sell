@@ -1,5 +1,7 @@
 const Product = require('../models/product');
 
+const ITEMS_PER_PAGE = 2;
+
 exports.getAddProduct = (req, res, next) => {
   res.render('admin/edit-product', {
     pageTitle: 'Add Product',
@@ -82,15 +84,22 @@ exports.postEditProduct = (req, res, next) => {
 };
 
 exports.getProducts = (req, res, next) => {
+  const page = +req.query.page || 1;
+  let totalProducts;
   Product.find({userId: req.user._id})
-    // .select('title price -_id')
-    // .populate('userId', 'name')
     .then(products => {
-      //console.log(products);
+      totalProducts = products.length;
+      return Product.find({userId : req.user._id})
+              .skip((page-1)*ITEMS_PER_PAGE)
+              .limit(ITEMS_PER_PAGE)
+    })
+    .then(productsList => {
       res.render('admin/products', {
-        prods: products,
+        prods: productsList,
         pageTitle: 'Admin Products',
-        path: '/admin/products'
+        path: '/admin/products',
+        currentPage: page,
+        lastPage: Math.ceil(totalProducts/ITEMS_PER_PAGE)
       });
     })
     .catch(err => next(err));

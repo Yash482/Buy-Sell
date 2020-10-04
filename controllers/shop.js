@@ -1,16 +1,25 @@
 const Product = require('../models/product');
 const Order = require('../models/order');
 
-const ITEMS_PER_PAGE = 1
+const ITEMS_PER_PAGE = 2
 
 exports.getProducts = (req, res, next) => {
-  Product.find()
+  const page = +req.query.page || 1;
+  let totalProducts;
+  Product.find().countDocuments()
+    .then(numProducts => {
+      totalProducts = numProducts;
+      return Product.find()
+            .skip((page-1)*ITEMS_PER_PAGE)
+            .limit(ITEMS_PER_PAGE)
+    })
     .then(products => {
-      //console.log(products);
       res.render('shop/product-list', {
         prods: products,
         pageTitle: 'All Products',
-        path: '/products'
+        path: '/products',
+        currentPage: page,
+        lastPage: Math.ceil(totalProducts/ITEMS_PER_PAGE)
       });
     })
     .catch(err => {
