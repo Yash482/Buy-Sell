@@ -1,4 +1,5 @@
 const Product = require('../models/product');
+const fileHelper = require('../util/file');
 
 const ITEMS_PER_PAGE = 2;
 
@@ -72,6 +73,7 @@ exports.postEditProduct = (req, res, next) => {
       product.price = updatedPrice;
       product.description = updatedDesc;
       if(updatedImage){
+        fileHelper.deleteFile(product.imageUrl);
         product.imageUrl = '/uploads/'+req.file.filename
       }
       return product.save()
@@ -107,10 +109,16 @@ exports.getProducts = (req, res, next) => {
 
 exports.postDeleteProduct = (req, res, next) => {
   const prodId = req.body.productId;
-  Product.deleteOne({_id: prodId, userId: req.user._id})
+  Product.findOne({_id: prodId, userId: req.user._id})
+    .then(product => {
+      fileHelper.deleteFile(product.imageUrl);
+      return   Product.deleteOne({_id: prodId, userId: req.user._id})
+    })
     .then(() => {
-      console.log('DESTROYED PRODUCT');
+      //console.log('DESTROYED PRODUCT');
       res.redirect('/admin/products');
     })
     .catch(err => next(err));
 };
+
+
