@@ -8,5 +8,7 @@
 <% if(currentPage+1 < lastPage) { %>
     <a href="?page=<%= currentPage+1 %>"><%= currentPage+1 %></a>
 <% } %>
-<a href="?page=<%= lastPage%>"><%= lastPage%></a>
+<% if(lastPage>1) { %>
+    <a href="?page=<%= lastPage%>"><%= lastPage%></a>
+<% } %>
             
