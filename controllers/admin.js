@@ -107,8 +107,9 @@ exports.getProducts = (req, res, next) => {
     .catch(err => next(err));
 };
 
-exports.postDeleteProduct = (req, res, next) => {
-  const prodId = req.body.productId;
+exports.deleteProduct = (req, res, next) => {
+  console.log('here we are in delete controller');
+  const prodId = req.params.prodId;
   Product.findOne({_id: prodId, userId: req.user._id})
     .then(product => {
       fileHelper.deleteFile(product.imageUrl);
@@ -116,9 +117,9 @@ exports.postDeleteProduct = (req, res, next) => {
     })
     .then(() => {
       //console.log('DESTROYED PRODUCT');
-      res.redirect('/admin/products');
+      res.status(200).json({message: 'Success'})
     })
-    .catch(err => next(err));
+    .catch(res.status(500).json({message: 'failed'}))
 };
 
 
